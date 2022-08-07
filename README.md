@@ -50,7 +50,7 @@ In the Scripts folder you will find a SeedManager.cs. This script contains all t
 
 Mac users might need to install python manually and edit accordingly the SetEnvironmentVariable() function in the SeedManager.cs : https://answers.unity.com/questions/1893841/unity-2020328f1-webgl-build-failed-on-macos-monter.html 
 
-- **Screenshots**
+- **Disable screenshots**
 
 If you don't want to use this feature, you can comment out the following line in the index.html file to get better performances.
 ```javascript
@@ -64,3 +64,7 @@ If you are using Shader Graph I noticed a bug with the Random Range node. This n
 - **Multiple ratios**
 
 If your project is using different ratios, you'll need to use the canvas "#unity-canvas" instead of the viewport when minting on fxhash. Resizing the Unity camera will not work, you'll have to resize the canvas in your html file.
+
+- **VFX Graph**
+
+The VFX Graph and compute shaders are not supported on WebGL right now.

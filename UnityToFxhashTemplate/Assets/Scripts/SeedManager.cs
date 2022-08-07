@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Runtime.InteropServices;
 
-#if UNITY_EDITOR
+#if UNITY_EDITOR_OSX
 using UnityEditor;
 using UnityEditor.Build;
 using UnityEditor.Build.Reporting;
@@ -79,7 +79,7 @@ public class SeedManager : MonoBehaviour{
         #if UNITY_WEBGL && !UNITY_EDITOR
             return GetFxhash();
         #elif UNITY_EDITOR
-            Debug.LogWarning("GetHash() is Not working in Unity editor");
+            Debug.LogWarning("GetHash() is not working in Unity editor");
             return null;
         #endif
     }
@@ -104,7 +104,7 @@ public class SeedManager : MonoBehaviour{
         #if UNITY_WEBGL && !UNITY_EDITOR
             TriggerFxpreview();
         #elif UNITY_EDITOR
-            Debug.LogWarning("TriggerPreview() is Not working in Unity editor");
+            Debug.LogWarning("TriggerPreview() is not working in Unity editor");
         #endif
     }
 
@@ -113,7 +113,7 @@ public class SeedManager : MonoBehaviour{
             return GetFxfeature(featureName);
         #elif UNITY_EDITOR
 
-            // These are testing features that you need to fil manually to mimick your html file features in Unity Eidtor
+            // These are testing features that you need to fill manually to mimick your html file features in Unity Editor
             string featureValue = "";
             List<string> testFeatures = new List<string>();
 

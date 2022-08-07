@@ -52,7 +52,7 @@ Mac users might need to install python manually and edit accordingly the SetEnvi
 
 - **Disable screenshots**
 
-If you don't want to use this feature, you can comment out the following line in the index.html file to get better performances.
+If you don't want to use this feature, you can remove and the function and comment out the following line in the index.html file to get better performances.
 ```javascript
 config['webglContextAttributes'] = {"preserveDrawingBuffer": true};
 ```

@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Template</title>
+    <script id="fxhash-snippet">
+      //---- do not edit the following code (you can indent as you wish)
+      let alphabet = "123456789abcdefghijkmnopqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ"
+      var fxhash = "oo" + Array(49).fill(0).map(_=>alphabet[(Math.random()*alphabet.leng)|0]).join('')
+      let b58dec = str=>[...str].reduce((p,c)=>p*alphabet.length+alphabet.indexOf(c)|0, 0)
+      let fxhashTrunc = fxhash.slice(2)
+      let regex = new RegExp(".{" + ((fxhash.length/4)|0) + "}", 'g')
+      let hashes = fxhashTrunc.match(regex).map(h => b58dec(h))
+      let sfc32 = (a, b, c, d) => {
+        return () => {
+          a |= 0; b |= 0; c |= 0; d |= 0
+          var t = (a + b | 0) + d | 0
+          d = d + 1 | 0
+          a = b ^ b >>> 9
+          b = c + (c << 3) | 0
+          c = c << 21 | c >>> 11
+          c = c + t | 0
+          return (t >>> 0) / 4294967296
+        }
+      }
+      var fxrand = sfc32(...hashes)
+      // true if preview mode active, false otherwise
+      // you can append preview=1 to the URL to simulate preview active
+      var isFxpreview = new URLSearchParams(window.location.search).get('preview') === "1"
+      // call this method to trigger the preview
+      function fxpreview() {
+        console.log("fxhash: TRIGGER PREVIEW")
+      }
+      //---- /do not edit the following code
+      </script>
+
+      <script>
+      // Functions accessible from Unity
+
+      // Get a random float 0->1
+      function getFxrand() {
+        return fxrand();
+      }
+
+      // Get current hash
+      function getFxhash() {
+        return fxhash;
+      }
+
+      // True if preview mode active, false otherwise
+      function getIsFxpreview() {
+        return isFxpreview;
+      }
+
+      // Call this method to trigger the preview
+      function triggerFxpreview() {
+        fxpreview();
+      }
+
+      // Set all your features here
+      const sampleColorArray = new Array("White", "Blue", "Green", "Red", "Black");
+      let sampleColor = sampleColorArray[Math.floor(fxrand() * sampleColorArray.length)];
+      
+      window.$fxhashFeatures = {
+        "Sample color" : sampleColor
+      }
+
+      // Call this method to get a feature value
+      function getFxfeature(featureName) {
+        
+        let featureValue = "";
+        
+        switch(featureName){
+
+          case"Sample color":
+            featureValue = sampleColor;
+          break;
+
+        }
+        return featureValue;
+      }
+    </script>
+
+    <link rel="shortcut icon" href="TemplateData/favicon.ico">
+    <link rel="stylesheet" href="TemplateData/style.css">
+  </head>
+  <body class="dark">
+    <div id="unity-container" class="unity-desktop">
+      <canvas id="unity-canvas"></canvas>
+    </div>
+    <div id="loading-cover" style="display:none;">
+      <div id="unity-loading-bar">
+        <div id="unity-logo"><img src="logo.png"></div>
+        <div id="unity-progress-bar-empty" style="display: none;">
+          <div id="unity-progress-bar-full"></div>
+        </div>
+        <div class="spinner"></div>
+      </div>
+    </div>
+    <div id="unity-fullscreen-button" style="display: none;"></div>
+    <script>
+      const hideFullScreenButton = "true";
+      const buildUrl = "Build";
+      const loaderUrl = buildUrl + "/Test.loader.js";
+      const config = {
+        dataUrl: buildUrl + "/Test.data",
+        frameworkUrl: buildUrl + "/Test.framework.js",
+        codeUrl: buildUrl + "/Test.wasm",
+        streamingAssetsUrl: "StreamingAssets",
+        companyName: "Ferdi",
+        productName: "Template",
+        productVersion: "1.0",
+      };
+
+      const container = document.querySelector("#unity-container");
+      const canvas = document.querySelector("#unity-canvas");
+      const loadingCover = document.querySelector("#loading-cover");
+      const progressBarEmpty = document.querySelector("#unity-progress-bar-empty");
+      const progressBarFull = document.querySelector("#unity-progress-bar-full");
+      const fullscreenButton = document.querySelector("#unity-fullscreen-button");
+      const spinner = document.querySelector('.spinner');
+
+      const canFullscreen = (function() {
+        for (const key of [
+            'exitFullscreen',
+            'webkitExitFullscreen',
+            'webkitCancelFullScreen',
+            'mozCancelFullScreen',
+            'msExitFullscreen',
+          ]) {
+          if (key in document) {
+            return true;
+          }
+        }
+        return false;
+      }());
+
+      if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
+        container.className = "unity-mobile";
+        config.devicePixelRatio = 1;
+      }
+      loadingCover.style.display = "";
+
+      const script = document.createElement("script");
+      script.src = loaderUrl;
+      script.onload = () => {
+        config['webglContextAttributes'] = {"preserveDrawingBuffer": true}; // Comment out this line to save performances if you don't want to capture screenshots
+        createUnityInstance(canvas, config, (progress) => {
+          spinner.style.display = "none";
+          progressBarEmpty.style.display = "";
+          progressBarFull.style.width = `${100 * progress}%`;
+        }).then((unityInstance) => {
+          loadingCover.style.display = "none";
+          if (canFullscreen) {
+            if (hideFullScreenButton != "true") {
+              console.log(hideFullScreenButton);
+              fullscreenButton.style.display = "";
+            }
+            fullscreenButton.onclick = () => {
+              unityInstance.SetFullscreen(1);
+            };
+          }
+        }).catch((message) => {
+          alert(message);
+        });
+      };
+      document.body.appendChild(script);
+    </script>
+  </body>
+</html>

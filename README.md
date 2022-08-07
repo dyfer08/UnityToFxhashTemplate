@@ -1,7 +1,7 @@
 # Unity to Fxhash template
 This is a basic Unity setup to export fxhash compatible WebGL projects.  
 Made with Unity 2021.3.  
-Based on the unity/fxhash template created by Nekropunk and "A Better Unity WebGL template" by Greggman (https://github.com/greggman/better-unity-webgl-template).
+Based on "Fxhash Unity boilerplate" created by fgra (https://github.com/fgrart/fxhash-unity-boilerplate) and "A Better Unity WebGL template" by Greggman (https://github.com/greggman/better-unity-webgl-template).
 
 ## Quick start
 1. Clone and open the project.

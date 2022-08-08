@@ -1,3 +1,4 @@
+
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,21 +6,29 @@ using System;
 using System.Text.RegularExpressions;
 using System.Linq;
 
-
 public class FxhashSimulator : MonoBehaviour{
 
     public static FxhashSimulator instance;
     string alphabet = "123456789abcdefghijkmnopqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ";
-    public static string fxhash = "oo";
-    static uint[] hashes;
+    public string fxhash;
+    uint[] hashes;
 
+#if UNITY_EDITOR
     void Awake(){
 
-        instance = this;
-
-        for(int i=0; i<49; i++){
-            fxhash += alphabet[(int)(UnityEngine.Random.value * alphabet.Length)|0];
+        if (instance != null){ 
+            Destroy(this); 
+        }else{ 
+            instance = this; 
         }
+
+        if(fxhash == null || fxhash == ""){
+            fxhash = "oo";
+            for(int i=0; i<49; i++){
+                fxhash += alphabet[(int)(UnityEngine.Random.value * alphabet.Length)|0];
+            }
+        }
+
         string fxhashTrunc = fxhash.Remove(0,2);
         Regex regex = new Regex(".{" + ((fxhash.Length/4)|0) + "}", RegexOptions.None);
         MatchCollection matches = regex.Matches(fxhashTrunc);
@@ -30,7 +39,7 @@ public class FxhashSimulator : MonoBehaviour{
         hashes = segments.Select(s => b58dec(s)).ToArray();
     }
 
-    public static float fxrand(){
+    public float fxrand(){
         return sfc32(hashes[0], hashes[1], hashes[2], hashes[3]);
     }
 
@@ -39,7 +48,7 @@ public class FxhashSimulator : MonoBehaviour{
         return (uint)hash;
     }
 
-    static float sfc32(uint a, uint b, uint c, uint d){
+    float sfc32(uint a, uint b, uint c, uint d){
         a |= 0;
         b |= 0;
         c |= 0;
@@ -52,7 +61,5 @@ public class FxhashSimulator : MonoBehaviour{
         hashes[2] = c = c + t | 0;
         return (t >> 0)/ 4294967296f;
     }
-
-
-
+#endif
 }

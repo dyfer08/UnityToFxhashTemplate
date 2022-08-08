@@ -30,10 +30,21 @@ public class SeedManager : MonoBehaviour{
     [DllImport("__Internal")]
     private static extern void TakeScreenshot(byte[] array, int byteLength, string fileName); // Call to take a screenshot and download it
 
-    [SerializeField]
-    UnityEngine.UI.Text DebugText;
+    #if UNITY_EDITOR
+    PreviewRenderer previewRenderer;
+    FxhashSimulator fxhashSimulator;
+    #endif
+
+    string currentHash;
+    float randomValue;
 
     void Start() {
+
+        #if UNITY_EDITOR
+        try{ previewRenderer = PreviewRenderer.instance; }catch{ previewRenderer = null; }
+        try{ fxhashSimulator = FxhashSimulator.instance; }catch{ fxhashSimulator = null; }
+        #endif
+
         switch(GetFeature("Sample color")){
             case "White":
                 Camera.main.backgroundColor = Color.white;
@@ -56,10 +67,23 @@ public class SeedManager : MonoBehaviour{
             break;
         }
 
-        DebugText.text += "GetHash() : " + GetHash();
-        Debug.Log(GetHash());
-        DebugText.text += "\nGetRandom() : " + GetRandom();
-        Debug.Log(GetRandom());
+        currentHash = GetHash();
+        Debug.Log("GetHash() : " + currentHash);
+
+        randomValue = GetRandom();
+        Debug.Log("GetRandom() : " + randomValue);
+
+        TriggerPreview();
+    }
+
+    void OnGUI(){
+        GUI.skin.box.alignment = TextAnchor.MiddleLeft;
+        GUI.skin.box.fontSize = 20;
+        GUI.skin.box.padding = new RectOffset(20, 20, 20, 20);
+        GUI.skin.box.normal.background = null;
+        GUI.contentColor = Color.white;
+        GUI.backgroundColor = Color.black;
+        GUI.Box(new Rect(10, 10, 850, 80), "GetHash() : " + currentHash + "\nGetRandom() : " + randomValue);
     }
 
     IEnumerator CaptureFrame(int superSize){
@@ -80,7 +104,11 @@ public class SeedManager : MonoBehaviour{
         #if UNITY_WEBGL && !UNITY_EDITOR
             return GetFxhash();
         #elif UNITY_EDITOR
-            return FxhashSimulator.fxhash;
+            if(fxhashSimulator == null){
+                return null;
+            }else{
+                return fxhashSimulator.fxhash;
+            }
         #endif
     }
 
@@ -88,7 +116,11 @@ public class SeedManager : MonoBehaviour{
         #if UNITY_WEBGL && !UNITY_EDITOR
             return GetFxrand();
         #elif UNITY_EDITOR
-            return FxhashSimulator.fxrand();
+            if(fxhashSimulator == null){
+                return Random.value;
+            }else{
+                return fxhashSimulator.fxrand();
+            }
         #endif
     }
 
@@ -96,7 +128,11 @@ public class SeedManager : MonoBehaviour{
         #if UNITY_WEBGL && !UNITY_EDITOR
             return GetIsFxpreview();
         #elif UNITY_EDITOR
-            return false;
+            if(previewRenderer == null){
+                return false;
+            }else{
+                return previewRenderer.enabled;
+            }
         #endif
     }
 
@@ -104,7 +140,11 @@ public class SeedManager : MonoBehaviour{
         #if UNITY_WEBGL && !UNITY_EDITOR
             TriggerFxpreview();
         #elif UNITY_EDITOR
-            Debug.LogWarning("TriggerPreview() is not working in Unity editor");
+            if(previewRenderer == null){
+                Debug.LogWarning("You are trying to render a preview in Editor but there is no PreviewRenderer prefab in the scene.");
+            }else{
+                previewRenderer.CreatePreview();
+            }
         #endif
     }
 

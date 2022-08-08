@@ -49,6 +49,10 @@ In the Scripts folder you will find a SeedManager.cs. This script contains all t
 
 Description coming soon
 
+## PreviewRenderer
+
+Description coming soon
+
 ## Tips and notes
 - **Mac users**
 

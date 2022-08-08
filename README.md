@@ -49,11 +49,11 @@ In the Scripts folder you will find a SeedManager.cs. This script contains all t
 
 Description coming soon
 
-## PreviewRenderer
+## Preview renderer
 
-The Preview renderer is a simple prefab that you can use to easily generate a series of previews. It will automatically export the preview as PNG files and store them on a dedicated folder on your computer. Each file is renamed with the hash used to genrate it.
+The Preview renderer is a simple prefab that you can use to easily generate a series of previews. It will automatically generate PNG files and store them on a dedicated folder on your computer. Each file is renamed with the hash used to genrate it.
 ![Preview renderer in Unity](https://ferdinanddervieux.com/ImageHosting/PreviewRenderer1.png)
-You can enable, set the quantity of preview you want to generate and apply a supersize in the inspector. To start rendering the preview, just call the function :
+You can enable, set the quantity of preview you want to generate and apply a supersize in the inspector. To start rendering the preview, just call the function as explained above :
   ```csharp
   void TriggerPreview();
   ```

@@ -34,10 +34,6 @@ public class SeedManager : MonoBehaviour{
     UnityEngine.UI.Text DebugText;
 
     void Start() {
-
-        DebugText.text += "GetHash() : " + GetHash();
-        DebugText.text += "\nGetRandom() : " + GetRandom();
-       
         switch(GetFeature("Sample color")){
             case "White":
                 Camera.main.backgroundColor = Color.white;
@@ -59,6 +55,11 @@ public class SeedManager : MonoBehaviour{
                 Camera.main.backgroundColor = Color.black;
             break;
         }
+
+        DebugText.text += "GetHash() : " + GetHash();
+        Debug.Log(GetHash());
+        DebugText.text += "\nGetRandom() : " + GetRandom();
+        Debug.Log(GetRandom());
     }
 
     IEnumerator CaptureFrame(int superSize){
@@ -79,8 +80,7 @@ public class SeedManager : MonoBehaviour{
         #if UNITY_WEBGL && !UNITY_EDITOR
             return GetFxhash();
         #elif UNITY_EDITOR
-            Debug.LogWarning("GetHash() is not working in Unity editor");
-            return null;
+            return FxhashSimulator.fxhash;
         #endif
     }
 
@@ -88,7 +88,7 @@ public class SeedManager : MonoBehaviour{
         #if UNITY_WEBGL && !UNITY_EDITOR
             return GetFxrand();
         #elif UNITY_EDITOR
-            return Random.value;
+            return FxhashSimulator.fxrand();
         #endif
     }
 
@@ -121,7 +121,7 @@ public class SeedManager : MonoBehaviour{
 
                 case "Sample color":
                     testFeatures = new List<string>(){ "White", "Red", "Green", "Blue", "Black"};
-                    featureValue = testFeatures[Random.Range(0, testFeatures.Count)];
+                    featureValue = testFeatures[(int)Mathf.Floor(GetRandom() * testFeatures.Count)];
                 break;
 
             }

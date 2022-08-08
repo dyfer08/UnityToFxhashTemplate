@@ -47,7 +47,8 @@ In the Scripts folder you will find a SeedManager.cs. This script contains all t
 
 ## Fxhash simulator
 
-![Fxhash simulator in Unity](https://ferdinanddervieux.com/ImageHosting/FxhashSimulator.png)
+Leave the Fxhash field empty to generate random hashes or paste an existing hash to generate a specific output.
+![Fxhash simulator in Unity](https://ferdinanddervieux.com/ImageHosting/FxhashSimulator1.png)
 Description coming soon
 
 ## Preview renderer

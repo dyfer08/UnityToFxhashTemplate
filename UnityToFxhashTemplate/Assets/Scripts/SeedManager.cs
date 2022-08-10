@@ -31,7 +31,6 @@ public class SeedManager : MonoBehaviour{
     private static extern void TakeScreenshot(byte[] array, int byteLength, string fileName); // Call to take a screenshot and download it
 
     #if UNITY_EDITOR
-    PreviewRenderer previewRenderer;
     FxhashSimulator fxhashSimulator;
     #endif
 
@@ -41,7 +40,6 @@ public class SeedManager : MonoBehaviour{
     void Start() {
 
         #if UNITY_EDITOR
-        try{ previewRenderer = PreviewRenderer.instance; }catch{ previewRenderer = null; }
         try{ fxhashSimulator = FxhashSimulator.instance; }catch{ fxhashSimulator = null; }
         #endif
 
@@ -128,10 +126,10 @@ public class SeedManager : MonoBehaviour{
         #if UNITY_WEBGL && !UNITY_EDITOR
             return GetIsFxpreview();
         #elif UNITY_EDITOR
-            if(previewRenderer == null){
+            if(fxhashSimulator == null){
                 return false;
             }else{
-                return previewRenderer.enabled;
+                return fxhashSimulator.generatePreview;
             }
         #endif
     }
@@ -140,10 +138,10 @@ public class SeedManager : MonoBehaviour{
         #if UNITY_WEBGL && !UNITY_EDITOR
             TriggerFxpreview();
         #elif UNITY_EDITOR
-            if(previewRenderer == null){
+            if(fxhashSimulator == null){
                 Debug.LogWarning("You are trying to render a preview in Editor but there is no PreviewRenderer prefab in the scene.");
             }else{
-                previewRenderer.CreatePreview();
+                fxhashSimulator.CreatePreview();
             }
         #endif
     }

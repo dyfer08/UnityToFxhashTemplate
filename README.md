@@ -47,15 +47,15 @@ In the Scripts folder you will find a SeedManager.cs. This script contains all t
 
 ## Fxhash simulator
 
-Leave the Fxhash field empty to generate random hashes or paste an existing hash to generate a specific output.
-![Fxhash simulator in Unity](https://ferdinanddervieux.com/ImageHosting/FxhashSimulator2.png)
-Description coming soon
+Open the Fxhash Simulator Editor window by clicking on Window -> Fxhash Simulator.
 
-## Preview renderer
+![Fxhash Simulator window in Unity](https://ferdinanddervieux.com/ImageHosting/PreviewRenderer.png)
 
-The Preview renderer is a simple prefab that you can use to easily generate a series of previews. It will automatically generate PNG files and store them in a dedicated folder on your computer. Each file is renamed with the hash used to generate it.
-![Preview renderer in Unity](https://ferdinanddervieux.com/ImageHosting/PreviewRenderer.png)
-You can enable, set the quantity of preview you want to generate and apply a supersize in the inspector. To start rendering the preview, just call the function as explained above :
+This window allows you to manage the Fxhash Simulator settings :
+- Enable custom hash.
+- Enable preview generation to easily generate a series of previews. It will automatically generate PNG files and store them in a dedicated folder on your computer. Each file is renamed with the hash used to generate it.
+
+To start rendering the preview, just call the function as explained above :
   ```csharp
   void TriggerPreview();
   ```

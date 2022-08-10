@@ -54,7 +54,7 @@ Description coming soon
 ## Preview renderer
 
 The Preview renderer is a simple prefab that you can use to easily generate a series of previews. It will automatically generate PNG files and store them in a dedicated folder on your computer. Each file is renamed with the hash used to generate it.
-![Preview renderer in Unity](https://ferdinanddervieux.com/ImageHosting/PreviewRenderer1.png)
+![Preview renderer in Unity](https://ferdinanddervieux.com/ImageHosting/PreviewRenderer.png)
 You can enable, set the quantity of preview you want to generate and apply a supersize in the inspector. To start rendering the preview, just call the function as explained above :
   ```csharp
   void TriggerPreview();

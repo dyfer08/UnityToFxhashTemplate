@@ -53,6 +53,13 @@ public class FxhashSimulator : MonoBehaviour{
             }
         }
 
+        if(fxhashSettings.seedsHistory){
+            Seed newSeed = new Seed();
+            newSeed.date = System.DateTime.Now.ToString("HH:mm  dd.MM");
+            newSeed.hash = fxhash;
+            fxhashSettings.seeds.Insert(0, newSeed); 
+        }
+
         string fxhashTrunc = fxhash.Remove(0,2);
         Regex regex = new Regex(".{" + ((fxhash.Length/4)|0) + "}", RegexOptions.None);
         MatchCollection matches = regex.Matches(fxhashTrunc);

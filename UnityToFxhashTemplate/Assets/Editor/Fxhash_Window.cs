@@ -1,5 +1,6 @@
 ﻿using UnityEditor;
 using UnityEngine;
+using UnityEditorInternal;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -8,18 +9,22 @@ public class Fxhash_Window : EditorWindow{
     Vector2 scrollPosFx;
     static Fxhash_Data fxhashSettings = null;
 
-    [MenuItem("Window/Fxhash Simulator")]
-    public static void ShowWindow(){
-        EditorWindow.GetWindow<Fxhash_Window>("Fxhash Simulator");
-    }
-
     static bool usecustomHash;
     static string customHash;
     static bool generatePreview;
     static int previewQuantity;
     static int previewSuperSize;
+    static bool saveHistory;
 
-    void Awake(){
+    SerializedObject sO;
+    public ReorderableList seedList = null;
+
+    [MenuItem("Window/Fxhash Simulator")]
+    public static void ShowWindow(){
+        EditorWindow.GetWindow<Fxhash_Window>("Fxhash Simulator");
+    }
+
+    static void Initialize(){
 
         fxhashSettings = (Fxhash_Data)AssetDatabase.LoadAssetAtPath("Assets/Settings/FxhashSimulator.asset", typeof(Fxhash_Data));
 
@@ -35,12 +40,42 @@ public class Fxhash_Window : EditorWindow{
         generatePreview = fxhashSettings.generatePreview;
         previewQuantity = fxhashSettings.previewQuantity;
         previewSuperSize = fxhashSettings.previewSuperSize;
+        saveHistory = fxhashSettings.seedsHistory;
+    }
+
+    void OnEnable(){
+
+        Initialize();
+        
+        sO = new SerializedObject(fxhashSettings);
+        seedList = new ReorderableList(sO, sO.FindProperty("seeds"),true, false, false, true);
+
+        seedList.drawElementCallback = (Rect rect, int index, bool isActive, bool isFocused) =>{
+            var element = seedList.serializedProperty.GetArrayElementAtIndex(index);
+
+            rect.y += 2;
+
+            GUI.enabled = true;
+
+            GUIStyle seedStyle = new GUIStyle (GUI.skin.label);
+            seedStyle.alignment = TextAnchor.MiddleLeft;
+            seedStyle.margin.left = 0;
+            seedStyle.fontSize = 12;
+
+            GUI.Label( new Rect(rect.x, rect.y, 80, EditorGUIUtility.singleLineHeight), fxhashSettings.seeds[index].date, seedStyle );
+
+            if (GUI.Button(new Rect(105, rect.y, EditorGUIUtility.currentViewWidth - 115, EditorGUIUtility.singleLineHeight), new GUIContent(fxhashSettings.seeds[index].hash, "copy hash"))) {
+                GUIUtility.systemCopyBuffer = fxhashSettings.seeds[index].hash;
+            }
+
+        };
+
     }
     
     void OnGUI(){
 
         if(fxhashSettings == null){
-            Awake();
+            OnEnable();
         }
         
         scrollPosFx = EditorGUILayout.BeginScrollView(scrollPosFx);
@@ -116,6 +151,23 @@ public class Fxhash_Window : EditorWindow{
         GUI.enabled = true;
 
         DrawUILine(new Color32(0, 0, 0, 100), 1, 0);
+
+        GUILayout.Space(10);
+
+        GUILayout.Label ("History Settings", titleStyle);
+        
+        GUILayout.Space(15);
+        
+        saveHistory = fxhashSettings.seedsHistory = EditorGUILayout.Toggle("Save Seed History", saveHistory );
+
+        if(fxhashSettings.seedsHistory){
+            GUILayout.Space(11);
+            sO.Update();
+            seedList.DoLayoutList();
+            sO.ApplyModifiedProperties();
+        }
+            
+        GUILayout.Space(10);
 
         GUI.backgroundColor = Color.white;
 

@@ -9,4 +9,13 @@ public class Fxhash_Data : ScriptableObject {
 	public bool generatePreview = false;
 	public int previewQuantity = 30;
 	public int previewSuperSize = 2;
+	
+	public bool seedsHistory = false;
+	public List<Seed> seeds = new List<Seed>();
+}
+
+[System.Serializable]
+public class Seed {
+	public string date = "";
+	public string hash = "";
 }

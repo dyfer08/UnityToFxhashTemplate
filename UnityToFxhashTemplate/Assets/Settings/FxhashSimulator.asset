@@ -14,6 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   usecustomHash: 0
   customHash: ooS1USyYLinnBdKeaBfBEAwBnNPKVtXgWz1Vj5Jr8Tb9MBECw8i
-  generatePreview: 0
+  generatePreview: 1
   previewQuantity: 30
   previewSuperSize: 2
+  seedsHistory: 0
+  seeds: []

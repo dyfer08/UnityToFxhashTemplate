@@ -34,11 +34,10 @@ public class FxhashSimulator : MonoBehaviour{
             DontDestroyOnLoad(gameObject);
             remaining = fxhashSettings.previewQuantity;
             CreateFolder();
+            CreateHash();
         }else{
             Destroy(gameObject);
         }
-
-        CreateHash();
 
         generatePreview = fxhashSettings.generatePreview;
 

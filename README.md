@@ -54,6 +54,7 @@ Open the Fxhash Simulator Editor window by clicking on Window -> Fxhash Simulato
 This window allows you to manage the Fxhash Simulator settings :
 - Enable custom hash.
 - Enable preview generator.
+- Enable seed history.
 
 To start rendering the preview, just call the function as you would for fxhash (see above instructions in How to use) :
   ```csharp

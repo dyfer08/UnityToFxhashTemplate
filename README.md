@@ -50,7 +50,7 @@ In the Scripts folder you will find a SeedManager.cs. This script contains all t
 The Fxhash Simulator reproduces the exact same outputs in Unity and fxhash. It means the same hash will give you the same result across Unity and fxhash. Make sure to always query your fxhash features first and perfectly mimic the fxrand() calls order of your index.html otherwise the outputs will differ.  
 The Fxhash Simulator also includes a Preview Generator to easily generate a series of previews. It will automatically generate PNG files and store them in a dedicated folder on your computer. Each file is renamed with the hash used to generate it.  
 Open the Fxhash Simulator Editor window by clicking on Window -> Fxhash Simulator.
-![Fxhash Simulator window in Unity](https://ferdinanddervieux.com/ImageHosting/PreviewRenderer.png)
+![Fxhash Simulator window in Unity](https://ferdinanddervieux.com/ImageHosting/FxhashSimulator3.png)
 This window allows you to manage the Fxhash Simulator settings :
 - Enable custom hash.
 - Enable preview generator.
